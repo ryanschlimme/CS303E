@@ -35,10 +35,12 @@ def multiplyUpTo3Numbers(x, y = 1, z = 1):
 def printInOrder(x, y):
     """Prints two input arguments in ascending order"""
     if x > y:
-        print(y, x)
+        c1 = y
+        c2 = x
     else:
-        print(x, y)
-
+        c1 = x
+        c2 = y
+    print(c1, c2)
 
 def areaOfSquare(side):
     """Returns the area of a square given one side length. Prints an error message if side is negative."""
@@ -93,13 +95,14 @@ def squareAndCircle(x):
 
 
 def factorial(n):
-    """Returns factorial of positive integer input using a loop. Prints an error message if it's not positive."""
+    """Returns factorial of positive integer input using a for loop. Prints an error message if it's not positive."""
     if n<0:
         print("Negative value entered")
     else:
-        while(n<0):
-            factorial *= n
-            n -= 1
+        factorial = 1
+        for i in range(1, n+1):
+            factorial = factorial*i
+    return factorial
 
 
 def numberLength(n):
