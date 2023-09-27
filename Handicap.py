@@ -8,7 +8,6 @@
 # and handicap after three games. 
 
 import math
-import numpy as np
 
 print()
 name = str(input("Enter bowler's name: "))
