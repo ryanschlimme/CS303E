@@ -9,16 +9,33 @@
 # name when creating the class, with the option to include exam grades, defaulting to 
 # None. The exam scores can be negative. 
 
-# Define a __str__ method to print things nicely
-# Shouldn't crash when asking for the average score if none are available
+class Student:
+    def __init__(self, Name, Exam1 = None, Exam2 = None):
+        self.__studentName = Name
+        self.__Exam1Grade = Exam1
+        self.__Exam2Grade = Exam2
 
-# Student class must have setters and getters for each of two exam grades
-# Getter for name, no setter for name
-# Name methods as follows
-# getName()
-# getExam1Grade()
-# getExam2Grade()
-# getAverage()
-#   Prints "Some exam grades not available." if either exam score missing
-# Allowed to have extra subsidiary functions inside and out of class if I want
-# Make class data private, only available through setters and getters of class
+    def __str__(self):
+        return("Student: " + str(self.__studentName) + "\n" + "  Exam1: " + 
+               str(self.__Exam1Grade) + "\n" + "  Exam2: " + str(self.__Exam2Grade))
+
+    def getName(self):
+        return self.__studentName
+    
+    def setExam1Grade(self, grade):
+        self.__Exam1Grade = grade
+
+    def setExam2Grade(self, grade):
+        self.__Exam2Grade = grade
+    
+    def getExam1Grade(self):
+        return self.__Exam1Grade
+    
+    def getExam2Grade(self):
+        return self.__Exam2Grade
+    
+    def getAverage(self):
+        if (self.__Exam1Grade == None) or (self.__Exam2Grade == None):
+            print("Some exam grades not available.")
+        else:
+            return (self.__Exam1Grade + self.__Exam2Grade)/2
