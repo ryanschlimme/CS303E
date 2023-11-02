@@ -1,0 +1,13 @@
+Total number of counties: 3144
+Unique population counts: 3080
+First digit frequency distributions: 
+Digit   Count   Percentage
+1       954     30.3      
+2       581     18.5      
+3       388     12.3      
+4       291     9.3       
+5       239     7.6       
+6       206     6.6       
+7       166     5.3       
+8       169     5.4       
+9       150     4.8       
