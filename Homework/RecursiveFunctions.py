@@ -43,11 +43,11 @@ def findSumOfDigits( n ):
 def integerToBinary( n ):
     """ Given a nonnegative integer n, return the 
     binary representation as a string. """
+    z = n % 2
+    n = n // 2
     if n == 0:
-        return ""
+        return str(z)
     else:
-        z = n % 2
-        n = n // 2
         return integerToBinary(n) + str(z)
 
 def integerToList( n ):
@@ -72,29 +72,58 @@ def isPalindrome( s ):
     else:
         return False
 
-# def findFirstUppercase( s ):
-#    """ Return the first uppercase letter in 
-#    string s, if any. Return None if there
-#    is none. """
+def findFirstUppercase( s ):
+    """ Return the first uppercase letter in 
+    string s, if any. Return None if there
+    is none. """
+    if len(s) == 0:
+        return None
+    x = s[0]
+    if x.isupper() == True:
+        return x
+    else:
+        s = s[1:len(s)]
+        if len(s) == 0:
+            return None
+        return findFirstUppercase(s)
 
-# # for this one, don't reverse the string.
-# def findLastUppercase( s ):
-#    """ Return the last uppercase letter in 
-#    string s, if any. Return None if there
-#    is none. """
+# for this one, don't reverse the string.
+def findLastUppercase( s ):
+    """ Return the last uppercase letter in 
+    string s, if any. Return None if there
+    is none. """
+    if len(s) == 0:
+        return None
+    x = s[len(s)-1]
+    if x.isupper() == True:
+        return x
+    else:
+        s = s[0:len(s)-1]
+        if len(s) == 0:
+            return None
+        return findLastUppercase(s)
 
-# def findFirstUppercaseIndexHelper( s, index ):
-#    """ Helper function for findFirstUppercaseIndex.
-#    Return the index of the first uppercase letter;
-#    assume you are starting at index. Return -1 
-#    if there is none."""
+def findFirstUppercaseIndexHelper( s, index ):
+    """ Helper function for findFirstUppercaseIndex.
+    Return the index of the first uppercase letter;
+    assume you are starting at index. Return -1 
+    if there is none."""
+    if len(s) == 0:
+        return -1
+    x = s[0]
+    if x.isupper() == True:
+        return index
+    else:
+        index += 1
+        s = s[1:len(s)]
+        return findFirstUppercaseIndexHelper(s,index)
 
-# # The following function is already completed for you. But 
-# # make sure you understand what it's doing. 
+# The following function is already completed for you. But 
+# make sure you understand what it's doing. 
 
-# def findFirstUppercaseIndex( s ):
-#    """ Return the index of the first uppercase letter in 
-#    string s, if any. Return -1 if there is none. This one 
-#    requires a helper function, which is the recursive 
-#    function. """
-#    return findFirstUppercaseIndexHelper( s, 0 )
+def findFirstUppercaseIndex( s ):
+   """ Return the index of the first uppercase letter in 
+   string s, if any. Return -1 if there is none. This one 
+   requires a helper function, which is the recursive 
+   function. """
+   return findFirstUppercaseIndexHelper( s, 0 )
