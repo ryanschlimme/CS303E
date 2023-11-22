@@ -14,8 +14,7 @@ import os
 
 class Flights:
     def __init__(self):
-        self.__fileName = "flights.txt"
-        #self.__fileName = input("Enter a file name: ")
+        self.__fileName = input("Enter a file name: ")
         if os.path.isfile(self.__fileName) == False:
             print("Cannot find file:", self.__fileName)
             return
@@ -56,25 +55,38 @@ class Flights:
         for i in self.__close:
             self.__neighbors.add(i[0])
         return self.__neighbors
-    
-    def getRouteHelper(self, startCity, endCity, visitedCities):
+                    
+    def getRouteHelper(self, startCity, endCity, visitedCities, count, route):
+        if visitedCities == None:
+            visitedCities = list()
+            route = list()
         if startCity == endCity:
-            return [startCity]
+            visitedCities.append(endCity)
+            route.append(endCity)
+            return route
         else:
             visitedCities.append(startCity)
-            self.__neighbors = list(Flights.getNeighboringCities(self, startCity))
-            for i in self.__neighbors:
-                print(i)
-                if i not in visitedCities:
-                    if i == endCity:
-                        visitedCities.append(endCity)
-                        return visitedCities
-                    else:
-                        return Flights.getRouteHelper(self, startCity = i, endCity=endCity, visitedCities=visitedCities)
+            route.append(startCity)
+            neighbors = list(Flights.getNeighboringCities(self, startCity))
+            if endCity in neighbors:
+                visitedCities.append(endCity)
+                route.append(endCity)
+                return route
+            if set(visitedCities).intersection(set(neighbors)) == set(neighbors):
+                nextCity = visitedCities[-2]
+                route = route[0:(-1-count)]
+                count += 1
+                if -1*(-1-count) == len(self.__cityList)-1:
+                    return []
+                return Flights.getRouteHelper(self, startCity = nextCity, endCity= endCity, 
+                                              visitedCities= visitedCities, count = count, route = route)
+            for i in neighbors:
+                if i in visitedCities:
+                    continue
                 else:
-                    visitedCities = []
-                    break
-                    
+                    count = 0
+                    return Flights.getRouteHelper(self, startCity= i, endCity=endCity, 
+                                                  visitedCities=visitedCities, count = 0, route = route)
 
     def getRoute(self, startCity, endCity):
         if startCity not in self.__cityList:
@@ -83,21 +95,36 @@ class Flights:
         if endCity not in self.__cityList:
             print("City", endCity, "not found")
             return
-        return self.getRouteHelper(startCity, endCity, visitedCities = [])
+        if startCity != endCity:
+            result = self.getRouteHelper(startCity = startCity, endCity = endCity, 
+                                       visitedCities = None, count = 0, route = list())
+            return list(dict.fromkeys(result))
+        else:
+            return [startCity]
     
     def getRoutePrice(self, route):
+        if route == []:
+            return -1
         self.__price = 0
-        for i in len(route-1):
+        for i in range(len(route)-1):
             self.__start = self.__dictionary[route[i]]
             self.__next = route[i+1]
             for j in self.__start:
                 if j[0] == self.__next:
-                    self.__price += j[1]
+                    self.__price += int(j[1])
         return self.__price
     
     def getPrice(self, startCity, endCity):
-        self.__route = Flights.getRoute(startCity, endCity)
-        return Flights.getRoutePrice(self.__route)
-    
-# Need to finish route finding algorithm (getRouteHelper)
-# Need to test getRoutePrice, getPrice
+        if startCity == endCity:
+            return 0
+        if startCity not in self.__cityList:
+            print("City", startCity, "not found")
+            return
+        if endCity not in self.__cityList:
+            print("City", endCity, "not found")
+            return
+        self.__route = Flights.getRoute(self, startCity, endCity)
+        if self.__route == []:
+            return -1
+        else:
+            return Flights.getRoutePrice(self, self.__route)
